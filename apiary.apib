@@ -1,0 +1,263 @@
+# Hollywood API
+
+API para gerenciamento de filmes e seus personagens.
+
+## Filmes [/filmes]
+
+### Listar todos os filmes [GET]
+
++ Response 200 (application/json)
+
+[
+    {
+        "id": 1,
+        "nome": "Filme1",
+        "sinopse": "Sinopse do Filme1",
+        "created_at": "2023-01-17T12:00:00Z",
+        "updated_at": "2023-01-17T12:00:00Z"
+    },
+    {
+        "id": 2,
+        "nome": "Filme2",
+        "sinopse": "Sinopse do Filme2",
+        "created_at": "2023-01-17T12:30:00Z",
+        "updated_at": "2023-01-17T12:30:00Z"
+    }
+]
+
+### Criar um novo filme [POST]
+
++ Request (application/json)
+
+
+{
+"nome": "Filme1",
+"sinopse": "Sinopse do Filme1"
+}
+
++ Response 201 (application/json)
+
+    + Headers
+
+        Location: /filmes/1
+
+    + Body
+
+
+
+      {
+          "id": 1,
+          "nome": "Filme1",
+          "sinopse": "Sinopse do Filme1",
+          "created_at": "2023-01-17T12:00:00Z",
+          "updated_at": "2023-01-17T12:00:00Z"
+      }
+
++ Response 400 (application/json)
+
+    + Body
+
+      {
+          "message": "campos obrigatórios não informados",
+      }
+
+
++ Response 415 (application/json)
+
+    + Body
+
+          {
+              "message": "os dados devem ser informados em JSON",
+          }
+
+## Filme [/filmes/{id}]
+
++ Parameters
+    + id (number) - ID do filme a ser manipulado, formato de número inteiro
+
+### Visualizar um filme [GET]
+
+    + Response 200 (application/json)
+
+        + Body
+
+        {
+            "id": 1,
+            "nome": "Filme1",
+            "sinopse": "Sinopse do Filme1",
+            "created_at": "2023-01-17T12:00:00Z",
+            "updated_at": "2023-01-17T12:00:00Z"
+        }
+
+    + Response 404 (application/json)
+
+        + Body
+
+          {
+              "message": "filme não encontrado",
+          }
+
+### Atualizar um filme [PUT]
+
+    + Request (application/json)
+
+        {
+            "nome": "Filme1 Atualizado",
+            "sinopse": "Sinopse do Filme1 Atualizado"
+        }
+
+    + Response 200 (application/json)
+
+        + Body
+
+            {
+                "message": "filme atualizado com sucesso"
+            }
+
+    + Response 400 (application/json)
+
+        + Body
+
+            {
+                "message": "campos obrigatórios não informados",
+            }
+
+
+    + Response 404 (application/json)
+
+        + Body
+
+          {
+              "message": "filme não encontrado",
+          }
+
+### Deletar um filme [DELETE]
+
+    + Response 200 (application/json)
+
+        + Body
+
+            {
+                "message": "filme removido com sucesso"
+            }
+
+    + Response 404 (application/json)
+
+        + Body
+
+            {
+                "message": "filme não encontrado",
+            }
+
+## Personagens [/personagens]
+
+### Listar todos os personagens [GET]
+
+    + Response 200 (application/json)
+        [
+            {
+                "id": 1,
+                "nome": "Luke Skywalker",
+                "funcao": "Protagonista",
+                "tempoTela": "02:15:00",
+                "created_at": "2022-01-10T15:23:00Z",
+                "updated_at": "2022-01-10T15:23:00Z",
+                "filmes_id": 1
+            },
+            {
+                "id": 2,
+                "nome": "Princesa Leia",
+                "funcao": "Protagonista",
+                "tempoTela": "01:45:00",
+                "created_at": "2022-01-10T15:23:00Z",
+                "updated_at": "2022-01-10T15:23:00Z",
+                "filmes_id": 1
+            },
+            {
+                "id": 3,
+                "nome": "Han Solo",
+                "funcao": "Protagonista",
+                "tempoTela": "01:30:00",
+                "created_at": "2022-01-10T15:23:00Z",
+                "updated_at": "2022-01-10T15:23:00Z",
+                "filmes_id": 1
+            }
+        ]
+
+### Criar um novo personagem [POST]
+
+### Cria um novo personagem.
+
+    + Request (application/json)
+
+        + Headers
+
+            Authorization: Bearer <token>
+
+        + Body
+
+            {
+                "nome": "Darth Vader",
+                "funcao": "Antagonista",
+                "tempoTela": "02:00:00",
+                "filmes_id": 1
+            }
+
+    + Response 201
+
+### Buscar um personagem pelo id [GET /{id}]
+
+Retorna os detalhes de um personagem específico.
+
+    + Parameters
+        + id (required, number, 1) ... O id do personagem.
+
+    + Response 200 (application/json)
+
+        {
+            "id": 1,
+            "nome": "Luke Skywalker",
+            "funcao": "Protagonista",
+            "tempoTela": "02:15:00",
+            "created_at": "2022-01-10T15:23:00Z",
+            "updated_at": "2022-01-10T15:23:00Z",
+            "filmes_id": 1
+        }
+
+    + Response 404 (application/json)
+
+### Atualizar um personagem [PUT /{id}]
+
+Atualiza os detalhes de um personagem específico.
+
+    + Parameters
+        + id (required, number, 1) ... O id do personagem.
+
+    + Request (application/json)
+
+        + Headers
+
+            + Authorization: Bearer <token>
+
+        + Body
+
+
+            {
+                "nome": "Darth Vader",
+                "funcao": "Antagonista",
+                "tempoTela": "02:30:00",
+                "filmes_id": 1
+            }
+
+    + Response 200
+
+    + Response 404 (application/json)
+
+### Deletar um personagem [DELETE /{id}]
+
+Remove um personagem específico.
+
+    + Parameters
+        + id (required, number, 1) ... O id do personagem.
+
+    + Response 204
